@@ -5,6 +5,7 @@
 - Видалення активності тепер від'єднує, але зберігає Inbox-задачі й звички; Inbox-задача повертається у стан «вхідні» та може бути запланована повторно.
 - Додано два регресійні тести для збереження зв'язків і вже створеного плану.
 - Live Google OAuth і ручні браузерні UAT-сценарії залишаються неперевіреними.
+- Для лабораторної додано збір line/branch coverage через `pytest-cov` і мутаційне тестування через `pytest-gremlins` з JSON/HTML-звітами.
 
 - Smart Planning activity policies (recurrence, buffers, preferred hours, energy peaks, dependency DAG, goal link, due date)
 - Inbox with subtasks, Goals, Habits, templates and week goals progress

@@ -184,15 +184,14 @@ python -m venv .venv
 python -m pytest tests --cov=app --cov-branch --cov-report=term-missing --cov-report=html
 ```
 
-Мутаційний набір налаштований у `backend/pyproject.toml`. `mutmut` потребує Linux із підтримкою `fork`, тому у Windows запускай його у WSL з того самого каталогу `backend/`:
+Мутаційний набір налаштований у `backend/pyproject.toml`. `pytest-gremlins` запускається як pytest-плагін із того самого каталогу `backend/`:
 
 ```shell
 python -m pip install -r requirements-lab.txt
-mutmut run
-mutmut browse
+python -m pytest tests --gremlins --gremlin-targets=app --gremlin-parallel
 ```
 
-Публічний GitHub commit hash із кодом, що аналізувався, наведи у звіті лабораторної. Точні значення покриття та мутаційного score потрібно отримати власним прогоном; не вважай результати звичайного pytest метриками покриття.
+Звіт у JSON/HTML з'явиться в `coverage/gremlins/`. Публічний GitHub commit hash із кодом, що аналізувався, наведи у звіті лабораторної. Точні значення покриття та мутаційного score потрібно отримати власним прогоном; не вважай результати звичайного pytest метриками покриття.
 
 ## Типовий сценарій
 
