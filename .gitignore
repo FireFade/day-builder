@@ -1,0 +1,13 @@
+.venv/
+node_modules/
+dist/
+__pycache__/
+*.pyc
+*.db
+*.sqlite*
+.pytest_cache/
+.env
+.env.*
+!.env.example
+*.log
+.secrets/
