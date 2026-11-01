@@ -170,25 +170,25 @@ cd backend
 
 ## Модульні тести та метрики (лабораторна робота)
 
-Backend-тести запускаються з каталогу `backend/`:
+Backend-тести запускаються з кореня репозиторію:
 
 ```powershell
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
-.\.venv\Scripts\python.exe -m pytest tests -q
+python -m venv backend/.venv
+backend\.venv\Scripts\python.exe -m pip install -r backend\requirements-dev.txt
+backend\.venv\Scripts\python.exe -m pytest backend\tests -q
 ```
 
-Щоб зібрати покриття рядків і гілок, встанови інструменти з `requirements-lab.txt`, тоді запусти з `backend/`:
+Щоб зібрати покриття рядків і гілок, встанови інструменти з `backend/requirements-lab.txt`, тоді запусти:
 
 ```shell
-python -m pytest tests --cov=app --cov-branch --cov-report=term-missing --cov-report=html
+backend/.venv/Scripts/python -m pip install -r backend/requirements-lab.txt
+backend/.venv/Scripts/python -m pytest backend/tests --cov=app --cov-branch --cov-report=term-missing --cov-report=html
 ```
 
-Мутаційний набір налаштований у `backend/pyproject.toml`. `pytest-gremlins` запускається як pytest-плагін із того самого каталогу `backend/`:
+Мутаційний набір налаштований у кореневому `pyproject.toml`. `pytest-gremlins` запускається як pytest-плагін:
 
 ```shell
-python -m pip install -r requirements-lab.txt
-python -m pytest tests --gremlins --gremlin-targets=app --gremlin-parallel
+backend/.venv/Scripts/python -m pytest backend/tests --gremlins --gremlin-targets=backend/app --gremlin-parallel
 ```
 
 Звіт у JSON/HTML з'явиться в `coverage/gremlins/`. Публічний GitHub commit hash із кодом, що аналізувався, наведи у звіті лабораторної. Точні значення покриття та мутаційного score потрібно отримати власним прогоном; не вважай результати звичайного pytest метриками покриття.
