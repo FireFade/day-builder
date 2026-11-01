@@ -168,6 +168,32 @@ cd backend
 
 Документація API: http://localhost:8000/docs
 
+## Модульні тести та метрики (лабораторна робота)
+
+Backend-тести запускаються з каталогу `backend/`:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
+.\.venv\Scripts\python.exe -m pytest tests -q
+```
+
+Щоб зібрати покриття рядків і гілок, встанови інструменти з `requirements-lab.txt`, тоді запусти з `backend/`:
+
+```shell
+python -m pytest tests --cov=app --cov-branch --cov-report=term-missing --cov-report=html
+```
+
+Мутаційний набір налаштований у `backend/pyproject.toml`. `mutmut` потребує Linux із підтримкою `fork`, тому у Windows запускай його у WSL з того самого каталогу `backend/`:
+
+```shell
+python -m pip install -r requirements-lab.txt
+mutmut run
+mutmut browse
+```
+
+Публічний GitHub commit hash із кодом, що аналізувався, наведи у звіті лабораторної. Точні значення покриття та мутаційного score потрібно отримати власним прогоном; не вважай результати звичайного pytest метриками покриття.
+
 ## Типовий сценарій
 
 1. Зайдіть у **Налаштування** та перевірте час пробудження, сну, 3 прийоми їжі.

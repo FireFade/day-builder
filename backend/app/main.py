@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import select, update
 from sqlalchemy.orm import Session, selectinload
 from .db import get_db
-from .models import Activity, ActivityPolicy, CalendarEvent, DayPlan, PlanBlock, Preferences, DEFAULT_MEALS
+from .models import Activity, ActivityPolicy, CalendarEvent, DayPlan, Habit, InboxTask, PlanBlock, Preferences, DEFAULT_MEALS
 from .planner import generate
 from .schemas import ActivityIn, ActivityOut, BlockOut, BlockStatusIn, EventIn, EventOut, PlanGenerate, PlanOut, PreferencesIn
 
@@ -76,6 +76,13 @@ def delete_activity(activity_id: int, db: Session = Depends(get_db)):
     if record is None:
         raise HTTPException(404, "Activity not found")
     db.query(ActivityPolicy).filter(ActivityPolicy.activity_id==activity_id).delete()
+    # Keep user-owned records and plan history, but remove links to the deleted template.
+    db.query(InboxTask).filter(InboxTask.activity_id==activity_id).update(
+        {"activity_id": None, "state": "inbox"}, synchronize_session=False
+    )
+    db.query(Habit).filter(Habit.linked_activity_id==activity_id).update(
+        {"linked_activity_id": None}, synchronize_session=False
+    )
     db.delete(record)
     mark_activity_plans_stale(db)
     db.commit()

@@ -1,5 +1,11 @@
 # Day Builder v1.0 beta
 
+## Аудит і стабілізаційні виправлення (2026-11-02)
+- Додано `docs/TECHNICAL-AUDIT-v1.0.md` з інвентаризацією функцій, ризиками та планом стабілізації.
+- Видалення активності тепер від'єднує, але зберігає Inbox-задачі й звички; Inbox-задача повертається у стан «вхідні» та може бути запланована повторно.
+- Додано два регресійні тести для збереження зв'язків і вже створеного плану.
+- Live Google OAuth і ручні браузерні UAT-сценарії залишаються неперевіреними.
+
 - Smart Planning activity policies (recurrence, buffers, preferred hours, energy peaks, dependency DAG, goal link, due date)
 - Inbox with subtasks, Goals, Habits, templates and week goals progress
 - Move pending activities to tomorrow, reminder snooze/dismiss
