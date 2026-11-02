@@ -4,3 +4,5 @@ pytest-cov>=6,<8
 pytest-gremlins>=1.13,<2
 playwright>=1.52,<2
 pillow>=11,<13
+pytest>=8,<9
+pytest-bdd>=7,<9
