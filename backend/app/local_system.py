@@ -6,6 +6,7 @@ Server remains bound to loopback; there is deliberately no public auth here.
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 import io, json, os, sqlite3, tempfile, zipfile
+from contextlib import closing
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
@@ -27,8 +28,13 @@ def export_backup():
     # SQLite backup API guarantees a consistent snapshot even while the server is running.
     with tempfile.TemporaryDirectory() as d:
         copied=Path(d)/'daybuilder.db'
-        with sqlite3.connect(str(source_path)) as src,sqlite3.connect(str(copied)) as dst:
-            src.backup(dst)
+        # sqlite3.Connection's context manager commits/rolls back but does not
+        # close the connection. Explicitly close both handles before the
+        # TemporaryDirectory removes the copied database (required on Windows).
+        with closing(sqlite3.connect(str(source_path))) as src:
+            with closing(sqlite3.connect(str(copied))) as dst:
+                src.backup(dst)
+                dst.commit()
         archive=io.BytesIO()
         with zipfile.ZipFile(archive,'w',compression=zipfile.ZIP_DEFLATED) as z:
             z.write(copied,'backend/daybuilder.db')
